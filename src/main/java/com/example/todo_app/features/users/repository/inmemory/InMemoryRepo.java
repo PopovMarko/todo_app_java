@@ -39,6 +39,11 @@ public class InMemoryRepo implements UserRepository {
   @Override
   public UserDomain createUser(UserDomain user) {
     UserModel userModel = UserModel.toModel(user, userId);
+    for (UserModel u : userRepository.values()) {
+      if (user.email() == u.email()) {
+        throw new IllegalArgumentException("email allready exists");
+      }
+    }
     userId++;
     userRepository.put(userModel.id(), userModel);
     return userModel.toDomain();
@@ -71,5 +76,15 @@ public class InMemoryRepo implements UserRepository {
     userRepository.put(id, updatedUser);
 
     return updatedUser.toDomain();
+  }
+
+  @Override
+  public boolean emailExists(String email) {
+    for (UserModel u : userRepository.values()) {
+      if (u.email().equals(email)) {
+        return true;
+      }
+    }
+    return false;
   }
 }

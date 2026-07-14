@@ -13,4 +13,6 @@ public interface UserRepository {
   void deleteUser(int id);
 
   UserDomain updateUser(int id, UserDomain user);
+
+  boolean emailExists(String email);
 }
