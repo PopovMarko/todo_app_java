@@ -9,4 +9,8 @@ public interface UserRepository {
   List<UserDomain> getUsers();
 
   UserDomain getUser(int id);
+
+  void deleteUser(int id);
+
+  UserDomain updateUser(int id, UserDomain user);
 }

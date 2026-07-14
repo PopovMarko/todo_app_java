@@ -13,15 +13,28 @@ public class UserServiceImpl implements UserService {
     this.repository = repository;
   }
 
+  @Override
   public UserDomain createUser(UserDomain user) {
     return repository.createUser(user);
   }
 
+  @Override
   public List<UserDomain> getUsers() {
     return repository.getUsers();
   }
 
+  @Override
   public UserDomain getUser(int id) {
     return repository.getUser(id);
+  }
+
+  @Override
+  public void deleteUser(int id) {
+    repository.deleteUser(id);
+  }
+
+  @Override
+  public UserDomain updateUser(int id, UserDomain user) {
+    return repository.updateUser(id, user);
   }
 }
