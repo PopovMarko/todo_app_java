@@ -15,4 +15,6 @@ public interface UserRepository {
   UserDomain updateUser(int id, UserDomain user);
 
   boolean emailExists(String email);
+
+  boolean userExists(int id);
 }

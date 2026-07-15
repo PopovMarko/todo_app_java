@@ -1,6 +1,7 @@
 package com.example.todo_app.features.users.repository.inmemory;
 
 import com.example.todo_app.core.domain.*;
+import com.example.todo_app.core.exception.UserAlreadyExistsException;
 import com.example.todo_app.core.exception.UserNotFoundException;
 import com.example.todo_app.features.users.repository.Models.*;
 import com.example.todo_app.features.users.service.UserRepository;
@@ -30,9 +31,6 @@ public class InMemoryRepo implements UserRepository {
   public UserDomain getUser(int id) {
 
     UserDomain user = userRepository.get(id).toDomain();
-    if (user == null) {
-      throw new UserNotFoundException("user not found");
-    }
     return user;
   }
 
@@ -40,8 +38,8 @@ public class InMemoryRepo implements UserRepository {
   public UserDomain createUser(UserDomain user) {
     UserModel userModel = UserModel.toModel(user, userId);
     for (UserModel u : userRepository.values()) {
-      if (user.email() == u.email()) {
-        throw new IllegalArgumentException("email allready exists");
+      if (user.email().equals(u.email())) {
+        throw new UserAlreadyExistsException("email allready exists");
       }
     }
     userId++;
@@ -59,29 +57,33 @@ public class InMemoryRepo implements UserRepository {
 
   @Override
   public UserDomain updateUser(int id, UserDomain user) {
-    UserModel userModel = userRepository.get(id);
-    if (userModel == null) {
+    UserModel existing = userRepository.get(id);
+    if (existing == null) {
       throw new UserNotFoundException("user not found");
     }
-    String name = userModel.name();
-    String email = userModel.email();
-    if (user.name() != null && !user.name().isBlank()) {
-      name = user.name();
-    }
-    if (user.email() != null && !user.email().isBlank()) {
-      email = user.email();
-    }
-    UserModel updatedUser =
-        new UserModel(userModel.id(), name, email, userModel.createdAt(), LocalDateTime.now());
-    userRepository.put(id, updatedUser);
-
-    return updatedUser.toDomain();
+    String name =
+        (user.name() != null && !user.name().isBlank()) ? user.name() : existing.name();
+    String email =
+        (user.email() != null && !user.email().isBlank()) ? user.email() : existing.email();
+    UserModel merged = new UserModel(id, name, email, existing.createdAt(), LocalDateTime.now());
+    userRepository.put(id, merged);
+    return merged.toDomain();
   }
 
   @Override
   public boolean emailExists(String email) {
     for (UserModel u : userRepository.values()) {
       if (u.email().equals(email)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  @Override
+  public boolean userExists(int id) {
+    for (UserModel u : userRepository.values()) {
+      if (u.id() == (id)) {
         return true;
       }
     }
