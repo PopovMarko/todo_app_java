@@ -7,4 +7,10 @@ public interface TasksService {
   List<TasksDomain> getTasks(int userId);
 
   TasksDomain createTask(TasksDomain task);
+
+  TasksDomain getTask(int taskId);
+
+  void deleteTask(int taskId);
+
+  TasksDomain updateTask(int taskId, TasksDomain patchTask);
 }
