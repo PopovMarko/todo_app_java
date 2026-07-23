@@ -50,8 +50,8 @@ public class TasksController {
 
   @PutMapping("{taskId}")
   public TasksDtoResponse updateTask(
-      @PathVariable int taskId, @RequestBody TasksDtoRequest patchTask) {
-    TasksDomain patchedTask = service.updateTask(taskId, patchTask.toDomain());
+      @PathVariable int taskId, @RequestBody TaskDtoUpdate TaskUpdateDto) {
+    TasksDomain patchedTask = service.updateTask(taskId, TaskUpdateDto.toPatch());
     return TasksDtoResponse.toDto(patchedTask);
   }
 }

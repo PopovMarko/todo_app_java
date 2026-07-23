@@ -12,5 +12,5 @@ public interface TasksService {
 
   void deleteTask(int taskId);
 
-  TasksDomain updateTask(int taskId, TasksDomain patchTask);
+  TasksDomain updateTask(int taskId, TaskUpdatePatch patchTask);
 }
