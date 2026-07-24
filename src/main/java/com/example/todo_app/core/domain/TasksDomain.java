@@ -11,4 +11,10 @@ public record TasksDomain(
     @NotBlank(message = "description required") @Size(min = 1, max = 1000) String description,
     boolean completed,
     LocalDateTime createdAt,
-    LocalDateTime completedAt) {}
+    LocalDateTime completedAt) {
+  // public TasksDomain(String title, String description, Boolean completed) {
+  // 	this.title = title;
+  // 	this.description = description;
+  // 	this.completed = completed;
+  // }
+}

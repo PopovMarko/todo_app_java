@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 public class TasksServiceImpl implements TasksService {
   TasksRepository repository;
   Validator createTaskValidator;
-  Validator updateTakValidator;
 
   public TasksServiceImpl(TasksRepository repository, Validator validator) {
     this.repository = repository;

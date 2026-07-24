@@ -19,7 +19,7 @@ public class TasksDomainValidator {
 
     Set<ConstraintViolation<TasksDomain>> violations = validator.validate(task);
 
-    if (!violations.isEmpty()) {
+    if (violations != null && !violations.isEmpty()) {
       throw new ConstraintViolationException(violations);
     }
   }
