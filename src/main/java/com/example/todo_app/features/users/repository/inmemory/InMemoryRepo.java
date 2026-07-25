@@ -3,7 +3,7 @@ package com.example.todo_app.features.users.repository.inmemory;
 import com.example.todo_app.core.domain.*;
 import com.example.todo_app.core.exception.UserAlreadyExistsException;
 import com.example.todo_app.core.exception.UserNotFoundException;
-import com.example.todo_app.features.users.repository.Models.*;
+import com.example.todo_app.core.repository.models.UserModel;
 import com.example.todo_app.features.users.service.UserRepository;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -61,8 +61,7 @@ public class InMemoryRepo implements UserRepository {
     if (existing == null) {
       throw new UserNotFoundException("user not found");
     }
-    String name =
-        (user.name() != null && !user.name().isBlank()) ? user.name() : existing.name();
+    String name = (user.name() != null && !user.name().isBlank()) ? user.name() : existing.name();
     String email =
         (user.email() != null && !user.email().isBlank()) ? user.email() : existing.email();
     UserModel merged = new UserModel(id, name, email, existing.createdAt(), LocalDateTime.now());

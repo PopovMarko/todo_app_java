@@ -1,4 +1,4 @@
-package com.example.todo_app.features.users.repository.Models;
+package com.example.todo_app.core.repository.models;
 
 import com.example.todo_app.core.domain.*;
 import java.time.LocalDateTime;
