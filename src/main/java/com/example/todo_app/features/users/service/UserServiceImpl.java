@@ -15,20 +15,21 @@ public class UserServiceImpl implements UserService {
   }
 
   void validateUser(UserDomain user) {
-    if (user.name() == null
-        || user.name().isBlank()
-        || user.name().length() < 3
-        || user.name().length() > 100) {
-      throw new IllegalArgumentException("name is required and must be between 3 and 100 characters");
+    if (user.getName() == null
+        || user.getName().isBlank()
+        || user.getName().length() < 3
+        || user.getName().length() > 100) {
+      throw new IllegalArgumentException(
+          "name is required and must be between 3 and 100 characters");
     }
-    if (user.email() == null || user.email().isBlank()) {
+    if (user.getEmail() == null || user.getEmail().isBlank()) {
       throw new IllegalArgumentException("email is required");
     }
   }
 
   @Override
   public UserDomain createUser(UserDomain user) {
-    if (repository.emailExists(user.email())) {
+    if (repository.emailExists(user.getEmail())) {
       throw new UserAlreadyExistsException("email allready in use");
     }
     if (!user.valid()) {
@@ -61,8 +62,8 @@ public class UserServiceImpl implements UserService {
     if (!repository.userExists(id)) {
       throw new UserNotFoundException("user not found");
     }
-    if (repository.emailExists(user.email())
-        && !user.email().equals(repository.getUser(id).email())) {
+    if (repository.emailExists(user.getEmail())
+        && !user.getEmail().equals(repository.getUser(id).getEmail())) {
       throw new UserAlreadyExistsException("email allready in use");
     }
     return repository.updateUser(id, user);

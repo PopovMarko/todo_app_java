@@ -9,7 +9,7 @@ public record UserDtoResponse(
     int id, String name, String email, LocalDateTime createdAt, LocalDateTime updatedAt) {
   public static UserDtoResponse toDto(UserDomain user) {
     return new UserDtoResponse(
-        user.id(), user.name(), user.email(), user.createdAt(), user.updatedAt());
+        user.getId(), user.getName(), user.getEmail(), user.getCreatedAt(), user.getUpdatedAt());
   }
 
   public static List<UserDtoResponse> toDto(List<UserDomain> users) {

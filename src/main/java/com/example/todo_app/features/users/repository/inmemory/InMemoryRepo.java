@@ -14,6 +14,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public class InMemoryRepo implements UserRepository {
+
   private int userId = 1;
   Map<Integer, UserModel> userRepository = new HashMap<>();
 
@@ -38,12 +39,12 @@ public class InMemoryRepo implements UserRepository {
   public UserDomain createUser(UserDomain user) {
     UserModel userModel = UserModel.toModel(user, userId);
     for (UserModel u : userRepository.values()) {
-      if (user.email().equals(u.email())) {
+      if (user.getEmail().equals(u.getEmail())) {
         throw new UserAlreadyExistsException("email allready exists");
       }
     }
     userId++;
-    userRepository.put(userModel.id(), userModel);
+    userRepository.put(userModel.getId(), userModel);
     return userModel.toDomain();
   }
 
@@ -61,10 +62,13 @@ public class InMemoryRepo implements UserRepository {
     if (existing == null) {
       throw new UserNotFoundException("user not found");
     }
-    String name = (user.name() != null && !user.name().isBlank()) ? user.name() : existing.name();
+    String name =
+        (user.getName() != null && !user.getName().isBlank()) ? user.getName() : existing.getName();
     String email =
-        (user.email() != null && !user.email().isBlank()) ? user.email() : existing.email();
-    UserModel merged = new UserModel(id, name, email, existing.createdAt(), LocalDateTime.now());
+        (user.getEmail() != null && !user.getEmail().isBlank())
+            ? user.getEmail()
+            : existing.getEmail();
+    UserModel merged = new UserModel(id, name, email, existing.getCreatedAt(), LocalDateTime.now());
     userRepository.put(id, merged);
     return merged.toDomain();
   }
@@ -72,7 +76,7 @@ public class InMemoryRepo implements UserRepository {
   @Override
   public boolean emailExists(String email) {
     for (UserModel u : userRepository.values()) {
-      if (u.email().equals(email)) {
+      if (u.getEmail().equals(email)) {
         return true;
       }
     }
@@ -82,7 +86,7 @@ public class InMemoryRepo implements UserRepository {
   @Override
   public boolean userExists(int id) {
     for (UserModel u : userRepository.values()) {
-      if (u.id() == (id)) {
+      if (u.getId() == (id)) {
         return true;
       }
     }

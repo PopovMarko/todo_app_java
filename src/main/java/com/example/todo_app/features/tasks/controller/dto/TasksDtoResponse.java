@@ -16,13 +16,13 @@ public record TasksDtoResponse(
 
   public static TasksDtoResponse toDto(TasksDomain task) {
     return new TasksDtoResponse(
-        task.id(),
-        task.userId(),
-        task.title(),
-        task.description(),
-        task.completed(),
-        task.createdAt(),
-        task.completedAt());
+        task.getId(),
+        task.getUserId(),
+        task.getTitle(),
+        task.getDescription(),
+        task.getCompleted(),
+        task.getCreatedAt(),
+        task.getCompletedAt());
   }
 
   public static List<TasksDtoResponse> toDto(List<TasksDomain> tasksList) {
